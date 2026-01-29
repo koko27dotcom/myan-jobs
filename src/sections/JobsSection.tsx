@@ -1,6 +1,19 @@
 import { useState } from 'react'
 import { Search, MapPin, Building2, DollarSign } from 'lucide-react'
-import type { Job } from '../App'
+interface Job {
+  id: number
+  title: string
+  company: string
+  location: string
+  type: string
+  salary: string
+  posted: string
+  urgent: boolean
+  category: string
+  description: string
+  requirements: string[]
+  benefits: string[]
+}
 
 interface Props {
   jobs: Job[]
