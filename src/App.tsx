@@ -372,7 +372,7 @@ const jobsData: Job[] = [
 ]
 
 function App() {
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null)
+  const [ setSelectedJob] = useState<Job | null>(null)
 
   return (
     <div className="min-h-screen bg-gray-50">
