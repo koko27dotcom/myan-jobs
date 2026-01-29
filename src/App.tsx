@@ -378,7 +378,7 @@ function App() {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <HeroSection totalJobs={jobsData.length} />
-      <JobsSection jobs={jobsData} onJobSelect={setSelectedJob} />
+      <JobsSection jobs={jobsData} onJobSelect={(job) => setSelectedJob} />
     </div>
   )
 }
