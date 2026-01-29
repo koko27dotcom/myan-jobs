@@ -1,90 +1,83 @@
-import { useState } from 'react'
-import { Search, MapPin, Building2, DollarSign } from 'lucide-react'
-export interface Job {
-  id: number
-  title: string
-  company: string
-  location: string
-  type: string
-  salary: string
-  posted: string
-  urgent: boolean
-  category: string
-  description: string
-  requirements: string[]
-  benefits: string[]
-}
+import { motion } from 'framer-motion'
+import { MapPin, DollarSign, Clock, ArrowRight, Flame, Gift } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import type { Job } from '../App'
 
-interface Props {
+interface JobsSectionProps {
   jobs: Job[]
-  onJobSelect: (job: Job) => void
 }
 
-export default function JobsSection({ jobs, onJobSelect }: Props) {
-  const [searchTerm, setSearchTerm] = useState('')
-
-  const filteredJobs = jobs.filter(job => 
-    job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    job.location.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-
+export default function JobsSection({ jobs }: JobsSectionProps) {
   return (
-    <section id="jobs" className="py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Available Positions</h2>
-          <p className="text-lg text-gray-600">Showing {filteredJobs.length} jobs</p>
-        </div>
+    <section className="max-w-7xl mx-auto px-4 py-16">
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-800">Available Positions</h2>
+        <span className="text-slate-500">{jobs.length} jobs found</span>
+      </div>
 
-        <div className="mb-8">
-          <div className="relative max-w-2xl mx-auto">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="text"
-              placeholder="Search jobs, companies, or locations..."
-              className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {jobs.map((job, index) => (
+          <JobCard key={job.id} job={job} index={index} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function JobCard({ job, index }: { job: Job; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05 }}
+      whileHover={{ y: -8 }}
+      className="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-2xl transition-all duration-300"
+    >
+      {job.urgent && (
+        <div className="absolute top-4 right-4 z-10">
+          <span className="inline-flex items-center gap-1 px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full">
+            <Flame size={12} /> URGENT
+          </span>
+        </div>
+      )}
+      
+      {job.referralBonus && (
+        <div className="absolute top-4 left-4 z-10">
+          <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full">
+            <Gift size={12} /> {job.referralBonus}
+          </span>
+        </div>
+      )}
+
+      <Link to={`/job/${job.id}`} className="block p-6 relative">
+        <div className="flex items-start gap-4 mb-4">
+          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+            {job.company[0]}
+          </div>
+          <div className="flex-1 pt-1">
+            <h3 className="font-bold text-lg text-slate-800 group-hover:text-blue-600 transition-colors">{job.title}</h3>
+            <p className="text-slate-500 text-sm">{job.company}</p>
           </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredJobs.map((job) => (
-            <div 
-              key={job.id} 
-              className="card cursor-pointer hover:scale-105"
-              onClick={() => onJobSelect(job)}
-            >
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">{job.title}</h3>
-                    <div className="flex items-center text-blue-600">
-                      <Building2 className="w-4 h-4 mr-1" />
-                      <span className="text-sm">{job.company}</span>
-                    </div>
-                  </div>
-                  {job.urgent && (
-                    <span className="px-3 py-1 bg-red-100 text-red-600 text-xs font-bold rounded-full">URGENT</span>
-                  )}
-                </div>
-                
-                <div className="space-y-2 text-sm text-gray-600">
-                  <div className="flex items-center"><MapPin className="w-4 h-4 mr-2" />{job.location}</div>
-                  <div className="flex items-center text-green-600 font-semibold"><DollarSign className="w-4 h-4 mr-2" />{job.salary}</div>
-                </div>
-                
-                <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">{job.category}</span>
-                  <span className="text-sm text-blue-600 font-medium">View Details →</span>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="flex flex-wrap gap-2 mb-4">
+          <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-xs font-semibold">{job.category}</span>
+          <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-medium">{job.type}</span>
         </div>
-      </div>
-    </section>
+
+        <div className="space-y-2 mb-4 text-sm text-slate-600">
+          <div className="flex items-center gap-2"><MapPin size={16} className="text-slate-400" /> {job.location}</div>
+          <div className="flex items-center gap-2"><DollarSign size={16} className="text-slate-400" /> <span className="font-semibold text-green-600">{job.salary}</span></div>
+          <div className="flex items-center gap-2"><Clock size={16} className="text-slate-400" /> {job.posted}</div>
+        </div>
+
+        <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+          <span className="text-xs text-slate-500">{job.requirements.length} requirements</span>
+          <span className="flex items-center gap-1 text-blue-600 font-semibold text-sm group-hover:gap-2 transition-all">
+            Details <ArrowRight size={16} />
+          </span>
+        </div>
+      </Link>
+    </motion.div>
   )
 }
