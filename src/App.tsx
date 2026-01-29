@@ -237,3 +237,4 @@ export const jobsData: Job[] = [
     location: "Kamaryut",
     type: "Full-time",
     salary: "5 Lakhs - 
+ }
