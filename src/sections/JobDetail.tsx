@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowLeft, MapPin, DollarSign, Clock, CheckCircle, Send } from 'lucide-react'
+import { ArrowLeft, MapPin, DollarSign, Clock, CheckCircle, Send, Gift } from 'lucide-react'
 import type { Job } from '../App'
 import { useState } from 'react'
 
@@ -44,14 +44,22 @@ export default function JobDetail({ jobs }: JobDetailProps) {
           </div>
         </div>
 
+        {/* REFERRAL BONUS BANNER */}
         {job.referralBonus && (
-          <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-6 text-white mb-6">
-            <div className="flex justify-between items-center">
-              <div>
-                <h3 className="font-bold text-lg">💰 Referral Bonus: {job.referralBonus}</h3>
-                <p className="text-green-100 text-sm">Refer a friend and earn when they get hired</p>
+          <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-6 text-white mb-6 shadow-lg">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                  <Gift size={24} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg">Referral Bonus: {job.referralBonus}</h3>
+                  <p className="text-green-100 text-sm">Refer a friend and earn when they get hired!</p>
+                </div>
               </div>
-              <button className="px-4 py-2 bg-white text-green-600 rounded-lg font-semibold text-sm">Refer Now</button>
+              <button className="px-6 py-3 bg-white text-green-600 rounded-xl font-semibold hover:shadow-lg transition-shadow">
+                Refer Now
+              </button>
             </div>
           </div>
         )}
