@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Search, MapPin, Building2, DollarSign } from 'lucide-react'
-interface Job {
+export interface Job {
   id: number
   title: string
   company: string
