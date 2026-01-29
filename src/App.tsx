@@ -3,7 +3,7 @@ import Navigation from './sections/Navigation'
 import HeroSection from './sections/HeroSection'
 import JobsSection from './sections/JobsSection'
 
-interface Job {
+export interface Job {
   id: number
   title: string
   company: string
