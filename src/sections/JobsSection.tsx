@@ -1,4 +1,3 @@
-// src/sections/JobsSection.tsx
 import { motion } from 'framer-motion'
 import { MapPin, DollarSign, Clock, ArrowRight, Flame, Gift } from 'lucide-react'
 import { Link } from 'react-router-dom'
